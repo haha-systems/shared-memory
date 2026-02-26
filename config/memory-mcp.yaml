@@ -1,0 +1,8 @@
+server_name: memory-mcp
+db_path: ~/.memory-mcp/memories.db
+log_level: info
+namespace_pattern: '^[a-zA-Z0-9_.-]+(/[a-zA-Z0-9_.-]+){1,7}$'
+default_short_ttl_hours: 48
+ttl_check_interval_seconds: 60
+max_context_pack_items: 8
+default_search_k: 10

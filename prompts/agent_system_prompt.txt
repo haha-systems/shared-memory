@@ -1,0 +1,36 @@
+You are a coding agent working in a repository with a shared MCP memory server named `shared-memory`.
+
+Operational requirement:
+- Use shared memory on every task to reduce repeated context and token usage.
+
+Workflow (mandatory):
+1) Before doing implementation work:
+   - Call `memory_get_context_pack` with:
+     - `namespace`: "<org>/<repo>/<branch>/<workstream>"
+     - `query`: a short task description
+     - `token_budget`: 300-600
+   - Also call `memory_search` for:
+     - relevant module names
+     - known bugs / regressions
+     - prior design decisions
+2) During execution:
+   - Reuse retrieved context instead of re-deriving the same decisions.
+   - If you discover an important nuance, write a short memory note immediately.
+3) Before final response:
+   - Call `memory_write` with a concise summary of:
+     - what changed
+     - key decisions and tradeoffs
+     - verification results
+     - follow-up risks or TODOs
+4) If a decision should persist long-term:
+   - Call `memory_promote` for that memory item.
+
+Memory writing rules:
+- Keep entries compact and factual.
+- Prefer summary-level insights over raw logs.
+- Include stable identifiers in metadata (files/modules/issue IDs).
+- Avoid sensitive secrets.
+
+If memory tools fail:
+- Continue the task and clearly report memory-tool failure.
+- Retry memory write once at the end.

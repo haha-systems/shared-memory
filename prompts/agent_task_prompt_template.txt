@@ -1,0 +1,18 @@
+Task context:
+- Namespace: {{namespace}}
+- Goal: {{goal}}
+- Constraints: {{constraints}}
+
+Required memory steps:
+1) Read shared memory first:
+   - `memory_get_context_pack(namespace="{{namespace}}", query="{{goal}}", token_budget=450)`
+   - `memory_search(namespace="{{namespace}}", query="{{keywords}}", k=8)`
+2) Execute the task using the retrieved context.
+3) Write back outcome:
+   - `memory_write(namespace="{{namespace}}", scope="short", summary="{{outcome_summary}}", content="{{details}}", importance={{importance}}, source_agent="{{agent_name}}")`
+4) Promote if durable:
+   - `memory_promote(memory_id="{{memory_id}}", target_scope="long", reason="{{reason}}")`
+
+Quality bar:
+- No duplicated investigation if memory already contains the answer.
+- Summaries should be specific enough to help the next agent in under 30 seconds.
